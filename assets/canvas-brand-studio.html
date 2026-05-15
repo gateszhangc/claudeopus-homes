@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canvas brand studio — Claude Opus static kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        background: #070708;
+        color: #f4f2ef;
+      }
+      body {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+        line-height: 1.5;
+      }
+      h1 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem;
+      }
+      p {
+        color: rgba(244, 242, 239, 0.72);
+        margin: 0 0 1rem;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-end;
+        margin: 1.5rem 0;
+      }
+      canvas {
+        display: block;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #0c0c0e;
+      }
+      button {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: #c15c3b;
+        color: #0b0b0c;
+        font-weight: 600;
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      button.secondary {
+        background: transparent;
+        color: #f4f2ef;
+      }
+      code {
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Canvas brand studio</h1>
+    <p>
+      This helper page draws the same geometric mark as <code>logo.svg</code> and <code>favicon.svg</code> using the HTML5 Canvas 2D API so you can export raster assets (PNG) for social cards or legacy favicon.ico pipelines.
+    </p>
+    <div class="row">
+      <canvas id="mark" width="120" height="120" aria-label="Brand mark preview"></canvas>
+      <div>
+        <button type="button" id="dl-logo">Download PNG (120)</button>
+        <p style="margin-top: 0.75rem; margin-bottom: 0">
+          <button type="button" class="secondary" id="dl-fav">Download PNG (32)</button>
+        </p>
+      </div>
+    </div>
+    <p>The live site uses the committed SVG files in this folder; open this file locally whenever you need a fresh raster export.</p>
+    <script>
+      function drawMark(ctx, size) {
+        var s = size / 120;
+        ctx.save();
+        ctx.scale(s, s);
+        ctx.fillStyle = "#0c0c0e";
+        roundRect(ctx, 0, 0, 120, 120, 20);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(232, 230, 227, 0.35)";
+        ctx.lineWidth = 2;
+        roundRect(ctx, 24, 24, 72, 72, 12);
+        ctx.stroke();
+        ctx.fillStyle = "#c15c3b";
+        roundRect(ctx, 36, 36, 48, 48, 8);
+        ctx.fill();
+        ctx.fillStyle = "rgba(12, 12, 14, 0.9)";
+        ctx.fillRect(52, 60, 16, 8);
+        ctx.fillRect(52, 76, 16, 8);
+        ctx.fillStyle = "#e8e6e3";
+        ctx.beginPath();
+        ctx.arc(78, 54, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(232, 230, 227, 0.5)";
+        ctx.beginPath();
+        ctx.arc(78, 78, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      function downloadCanvas(canvas, filename) {
+        canvas.toBlob(function (blob) {
+          if (!blob) return;
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = filename;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        });
+      }
+
+      var preview = document.getElementById("mark");
+      var pctx = preview.getContext("2d");
+      drawMark(pctx, 120);
+
+      document.getElementById("dl-logo").addEventListener("click", function () {
+        var c = document.createElement("canvas");
+        c.width = 120;
+        c.height = 120;
+        drawMark(c.getContext("2d"), 120);
+        downloadCanvas(c, "claude-opus-logo-120.png");
+      });
+
+      document.getElementById("dl-fav").addEventListener("click", function () {
+        var c = document.createElement("canvas");
+        c.width = 32;
+        c.height = 32;
+        drawMark(c.getContext("2d"), 32);
+        downloadCanvas(c, "claude-opus-favicon-32.png");
+      });
+    </script>
+  </body>
+</html>

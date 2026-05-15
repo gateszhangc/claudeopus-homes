@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+  <!-- Geometric mark: 48x48 grid, canvas-style construction -->
+  <rect width="120" height="120" rx="20" fill="#0c0c0e"/>
+  <g transform="translate(24 24)">
+    <rect x="0" y="0" width="72" height="72" rx="12" stroke="#e8e6e3" stroke-width="2" opacity="0.35"/>
+    <rect x="12" y="12" width="48" height="48" rx="8" fill="#c15c3b"/>
+    <path d="M28 36h16v8H28V36zm0 16h16v8H28v-8z" fill="#0c0c0e" opacity="0.9"/>
+    <circle cx="54" cy="30" r="6" fill="#e8e6e3"/>
+    <circle cx="54" cy="54" r="6" fill="#e8e6e3" opacity="0.5"/>
+  </g>
+</svg>
